@@ -1,0 +1,58 @@
+<div class="row mt-5">
+    <div class="col text-center">
+        <h1>Formulario para Agregar Productos</h1>
+    </div>
+</div>
+<main id="contacto-formulario">
+    <div class="container fuente" data-aos="fade-up">
+        <div class="row mb-5">
+            <div class="col-md-6 offset-md-3 contact rounded-5">
+                <form id="formulario">
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-name p">Nombre del producto</label>
+                        <input type="text" class="form-control" id="nameProduct" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-description p">Descripción</label>
+                        <input type="text" class="form-control" id="descripción" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-price p">Precio</label>
+                        <input type="text" class="form-control" id="price" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-route p">Thumbnail</label>
+                        <input type="text" class="form-control" id="thumbnail" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputName1" class="form-code p">código</label>
+                        <input type="text" class="form-control" id="code" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-stock p">Stock</label>
+                        <select name="stock" id="disabledSelect" class="form-select">
+                        <option class="p" value="" disabled selected>Seleccione</option>
+                        <option class="p" value="Available">Disponible </option>
+                        <option class="p" value="Out of Stock">Sin Existencias</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-aos="fade-left">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="row mt-5">
+    <div class="col text-center">
+        <h1>Lista de Productos Agregados</h1>
+    </div>
+</div>
+<div class="row mt-5">
+    <div id="output" class="col text-center mb-5"></div>
+</div>
+
+<script src="/socket.io/socket.io.min.js"></script>
+<script src="./ui.js"></script>
+<script src="./sockets.js"></script>
+<script src="./index.js"></script>

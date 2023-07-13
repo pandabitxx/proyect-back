@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Coca-Cola Cherry",
+    "description": "Cherry",
+    "price": "20",
+    "thumbnail": "jpg",
+    "code": "2056",
+    "stock": "Available"
+  },
+  {
+    "id": 2,
+    "title": "Sprite Lemon Lime",
+    "description": "Lemon Lime",
+    "price": "17",
+    "thumbnail": "png",
+    "code": "2078",
+    "stock": "Available"
+  },
+  {
+    "id": 3,
+    "title": "Pepsi Max",
+    "description": "Cola",
+    "price": "19",
+    "thumbnail": "png",
+    "code": "2101",
+    "stock": "Available"
+  }
+]
