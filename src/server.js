@@ -81,7 +81,6 @@ io.on('connection', (socket) => {
     })
 });
 
-
 //Encender el servidor
 //server.on("error", (error) => console.log("Error del servidor" + error));
 //npm run server
