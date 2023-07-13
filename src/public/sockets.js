@@ -16,5 +16,4 @@ const deleteProduct = id => {
 }
 
 socket.on("server:data", appendProduct);
-
 socket.on("server:loadProduct", renderProduct);
