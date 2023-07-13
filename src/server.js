@@ -66,7 +66,6 @@ io.on('connection', (socket) => {
 
     console.log("Nueva conexión: " + socket.id);
 
-    
     socket.emit('server:loadProduct', products)
 
     socket.on('client:data', (newProduct) => {
