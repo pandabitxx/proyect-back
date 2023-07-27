@@ -2,27 +2,34 @@
 import express from "express";
 import productsRouter from "./router/product.routes.js";
 import cartRouter from "./router/cart.routes.js";
+import viewsRouter from "./router/view.routes.js";
 import {engine} from "express-Handlebars"
 import __dirname from "./utils.js";
 import path from "path"
-import productManager from "./components/ProductManager.js";
 import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
+import('./database.js')
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 
 //Armando el servidor con express
-
 const app = express();
-const productos = new productManager();
+
 
 //Se pone para que express no tenga problema para leer el endpoint si es extenso.
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+//Conexión con MongoDB
+
+
 
 //Handelbars
-app.engine("handlebars", engine());
-app.set("view engine", "handlebars");
+app.engine(".hbs", engine({
+    extname: '.hbs'
+}));
+app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
 
@@ -31,22 +38,8 @@ app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter)
 
 
-//Ruta del Handlebar
-app.get("/d", async (req, res) => {
-    let allProducts = await productos.readProducts()
-    res.render("home", {
-        title: "Express Avanzado | Handlebars",
-        products: allProducts
-    })
-});
-
-app.get("/realTimeProducts", async (req, res) => {
-    let allProducts = await productos.readProducts()
-    res.render("realTimeProducts", {
-        title: "Express Avanzado | Handlebars",
-        products: allProducts
-    })
-});
+//Rutas del Handlebar
+app.use("/", viewsRouter);
 
 //Archivos estáticos
 app.use("/", express.static(__dirname + "/public"));
