@@ -9,6 +9,7 @@ import path from "path"
 import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
 import('./database.js')
+import morgan from "morgan";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 
@@ -40,6 +41,9 @@ app.use("/api/cart", cartRouter)
 
 //Rutas del Handlebar
 app.use("/", viewsRouter);
+
+//Middleware 
+app.use(morgan('dev'));
 
 //Archivos estáticos
 app.use("/", express.static(__dirname + "/public"));
