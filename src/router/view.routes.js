@@ -4,7 +4,7 @@ import productManager from "../controllers/ProductManager.js";
 const viewsRouter = Router();
 const productos = new productManager();
 
-viewsRouter.get("/", async (req, res) => {
+viewsRouter.get("/f", async (req, res) => {
     let allProducts = await productos.readProducts()
     res.render("main", {
         title: "Express Avanzado | Handlebars",

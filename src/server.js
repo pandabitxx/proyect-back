@@ -16,14 +16,13 @@ import MongoStore from "connect-mongo";
 
 //Armando el servidor con express
 const app = express();
-
-
-//Se pone para que express no tenga problema para leer el endpoint si es extenso.
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-
 //Conexión con MongoDB
 
+
+//Middleware 
+app.use(morgan('dev'));
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 
 //Handelbars
@@ -34,16 +33,19 @@ app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
 
+
+
 //Rutas
+import router from "./router/index.routes.js";
+import router2 from "./router/products-2.routes.js";
+app.use(router);
+app.use(router2);
+
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter)
 
-
 //Rutas del Handlebar
 app.use("/", viewsRouter);
-
-//Middleware 
-app.use(morgan('dev'));
 
 //Archivos estáticos
 app.use("/", express.static(__dirname + "/public"));
