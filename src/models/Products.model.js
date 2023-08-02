@@ -1,11 +1,7 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const ProductsSchema = new Schema({
-    id:{
-        type: String,
-        require: true
-    },
-    title:{
+const ProductsSchema = new mongoose.Schema({
+    name:{
         type: String,
         require: true
     },
@@ -33,4 +29,4 @@ const ProductsSchema = new Schema({
     timestamps: true
 })
 
-module.exports = model('products', ProductsSchema);
+export default mongoose.model('products', ProductsSchema, 'Notas');

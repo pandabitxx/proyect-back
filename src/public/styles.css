@@ -42,3 +42,7 @@ body {
 .errorLabel {
     margin-left: 5px;
 }
+
+.card {
+    border-radius: 0%;
+}

@@ -10,8 +10,6 @@ import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
 import('./database.js')
 import morgan from "morgan";
-import session from "express-session";
-import MongoStore from "connect-mongo";
 
 
 //Armando el servidor con express
@@ -25,13 +23,12 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 
-//Handelbars
+//Handlebars
 app.engine(".hbs", engine({
     extname: '.hbs'
 }));
 app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
-
 
 
 
@@ -56,9 +53,12 @@ const httpServer = app.listen(PORT, () => {
     console.log( "Express por Local Host: " + PORT );
 }) //genera el servidor en el puerto
 
-let products = []
+
 
 //Creación del socket
+let products = []
+
+
 const io = new Server(httpServer)
 
 io.on('connection', (socket) => {
