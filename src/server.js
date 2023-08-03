@@ -1,5 +1,6 @@
 //Creación del servidor
 import express from "express";
+import('./database.js')
 import productsRouter from "./router/product.routes.js";
 import cartRouter from "./router/cart.routes.js";
 import viewsRouter from "./router/view.routes.js";
@@ -8,7 +9,6 @@ import __dirname from "./utils.js";
 import path from "path"
 import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
-import('./database.js')
 import morgan from "morgan";
 
 
@@ -34,7 +34,7 @@ app.set("views", path.resolve(__dirname + "/views"))
 
 //Rutas
 import router from "./router/index.routes.js";
-import router2 from "./router/products-2.routes.js";
+import router2 from "./router/productsMongo.routes.js";
 app.use(router);
 app.use(router2);
 

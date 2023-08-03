@@ -1,14 +1,15 @@
 <div class="row">
     {{#each allProducts}}
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body"> 
                     <h4 class="card-title d-flex justify-content-between align-items-center">
                         {{name}} <i></i>
                     </h4>
-                    <p>{{description}}</p>
-                    <p>{{price}}</p>
-                    <p>{{code}}</p>
+                    <p>Id: {{_id}}</p>
+                    <p>Descripción: {{description}}</p>
+                    <p>Precio: ${{price}}</p>
+                    <p>Código: {{code}}</p>
                     <p>{{stock}}</p>
                 </div>
             </div>

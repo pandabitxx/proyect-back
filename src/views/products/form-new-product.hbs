@@ -10,27 +10,27 @@
                 <form action="/products/new-product" method="post">
                     <div class="mb-3">
                         <label for="nameProduct" class="form-name p">Nombre del producto</label>
-                        <input type="text" name="name" class="form-control" id="nameProduct" aria-describedby="emailHelp">
+                        <input type="text" name="name" class="form-control" id="nameProduct" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="descriptionProduct" class="form-description p">Descripción</label>
-                        <input type="text" name="description" class="form-control" id="descripción" aria-describedby="emailHelp">
+                        <input type="text" name="description" class="form-control" id="descripción" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="priceProduct" class="form-price p">Precio</label>
-                        <input type="text" name="price" class="form-control" id="price" aria-describedby="emailHelp">
+                        <input type="text" name="price" class="form-control" id="price" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="thumbnailProduct" class="form-route p">Thumbnail</label>
-                        <input type="text" name="thumbnail" class="form-control" id="thumbnail" aria-describedby="emailHelp">
+                        <input type="text" name="thumbnail" class="form-control" id="thumbnail" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="codeProduct" class="form-code p">código</label>
-                        <input type="text" name="code" class="form-control" id="code" aria-describedby="emailHelp">
+                        <input type="text" name="code" class="form-control" id="code" aria-describedby="emailHelp" required>
                     </div>
                     <div class="mb-3">
                         <label for="disabledSelect" class="form-stock p">Stock</label>
-                        <select name="stock" id="disabledSelect" class="form-select">
+                        <select name="stock" id="disabledSelect" class="form-select" required>
                         <option class="p" value="" disabled selected>Seleccione</option>
                         <option class="p" value="Available">Disponible </option>
                         <option class="p" value="Out of Stock">Sin Existencias</option>

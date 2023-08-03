@@ -4,14 +4,18 @@ const productsController = {};
 const products = ProductsSchema;
 
 productsController.renderProductsForm = (req, res) => {
-    res.render('products/new-product')
+    res.render('products/form-new-product')
 }
 
 productsController.createNewProduct = async (req, res) => {
     const { name, description, price, thumbnail, code, stock } = req.body
-    const newProduct = new products({name, description, price, thumbnail, code, stock})
-    await newProduct.save();
-    res.send('new product')
+    if (!name || !description || !price || !thumbnail || !code || !stock){
+        console.error("Todos los datos son obligatorios para agregar un producto.");
+    } else {
+        const newProduct = new products({name, description, price, thumbnail, code, stock})
+        await newProduct.save();
+        res.send('new product')
+    }
 }
 
 productsController.renderProducts = async (req, res) => {
