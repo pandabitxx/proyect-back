@@ -32,12 +32,17 @@ app.set("views", path.resolve(__dirname + "/views"))
 
 
 
-//Rutas
+//Rutas Usando Mongo
 import router from "./router/index.routes.js";
 import router2 from "./router/productsMongo.routes.js";
+import routerCarts from "./router/cartsMongo.routes.js";
+//Products Mongo
 app.use(router);
 app.use(router2);
+//Carts Mongo
+app.use(routerCarts);
 
+//Rutas Persistencia
 app.use("/api/products", productsRouter);
 app.use("/api/cart", cartRouter)
 
