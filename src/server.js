@@ -14,8 +14,8 @@ import morgan from "morgan";
 
 import authRouter from "./router/auth.routes.js";
 import userRouter from "./router/user.routes.js";
-import router from "./router/index.routes.js";
-import router2 from "./router/productsMongo.routes.js";
+import loginRouter from "./router/login.routes.js";
+import productsDbRouter from "./router/productsMongo.routes.js";
 import routerCarts from "./router/cartsMongo.routes.js";
 
 
@@ -44,10 +44,9 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 
 //Rutas Usando Mongo
-
+app.use(loginRouter);
 //Products Mongo
-app.use(router);//index
-app.use(router2);
+app.use(productsDbRouter);
 //Carts Mongo
 app.use(routerCarts);
 

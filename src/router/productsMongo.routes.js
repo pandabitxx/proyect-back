@@ -13,26 +13,26 @@ const {renderProductsForm,
 } = productsController
 
 
-const router2 = Router();
+const productsDbRouter = Router();
 
 //New Product 
-router2.get('/products/add', renderProductsForm);
+productsDbRouter.get('/products/add', renderProductsForm);
 
 // (Crear un nuevo Producto)
-router2.post('/products/new-product', [verifyToken, isModerator], createNewProduct);
+productsDbRouter.post('/products/new-product', [verifyToken, isModerator], createNewProduct);
 
 //Get all Products (Obtener productos de la base de datos)
-router2.get('/products', renderProducts);
+productsDbRouter.get('/products', renderProducts);
 
 //Edit All Products 
-router2.get('/products/edit/:id', verifyToken, renderEditProducts);
+productsDbRouter.get('/products/edit/:id', verifyToken, renderEditProducts);
 
-router2.put('/products/edit/:id', verifyToken, updateProduct);
+productsDbRouter.put('/products/edit/:id', verifyToken, updateProduct);
 
 //Delete Products
-router2.delete('/products/delete/:id', verifyToken, deleteProduct);
+productsDbRouter.delete('/products/delete/:id', verifyToken, deleteProduct);
 
 //Paginate
-router2.get('/pag', paginateProducts);
+productsDbRouter.get('/pag', paginateProducts);
 
-export default router2;
+export default productsDbRouter;
