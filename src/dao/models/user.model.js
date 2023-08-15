@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
-import { bycrypt } from bcryptjs
+import bcrypt from "bcryptjs";
 
-const UserSchema = new Schema({
+
+const userSchema = new Schema({
     name:{
         type: String,
         require: true
@@ -13,23 +14,27 @@ const UserSchema = new Schema({
     password:{
         type: String,
         require: true
+    },
+    roles: [{
+        ref: "Role",
+        type: Schema.Types.ObjectId
+    }]
+    }, 
+    {
+        timestamps: true,
+        versionKey: false,
     }
-}, {
-    timestamps: true
-})
-
-
+);
 
 
 //Encriptar las contraseñas de los usuarios
-UserSchema.methods.encryptPassword = async password => {
-    const salt = await bycrypt.genSalt(10);
-    return await bycrypt.hash('password', salt);
+userSchema.statics.encryptPassword = async (password) => {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
 };
 
-UserSchema.methods.matchPassword = async function(password) {
-    return await bycrypt.compare(password, this.password);
+userSchema.statics.comparePassword = async (password, receivedPassword) => {
+    return await bcrypt.compare(password, receivedPassword);
 }
 
-
-module.exports = model('User', UserSchemaSchema);
+export default model('User', userSchema);

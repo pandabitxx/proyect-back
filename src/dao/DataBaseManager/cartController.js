@@ -24,6 +24,7 @@ cartController.getCarts = async (req, res) => {
 };
 
 //Añadir un producto al carrito
+
 // Función addProduct
 cartController.addProduct = async (cartId, productId) => {
     try {

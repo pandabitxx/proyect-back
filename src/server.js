@@ -1,5 +1,6 @@
 //Creación del servidor
 import express from "express";
+import createRoles from "./libs/initialSetup.js";
 import('./database.js')
 import productsRouter from "./router/product.routes.js";
 import cartRouter from "./router/cart.routes.js";
@@ -11,16 +12,24 @@ import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
 import morgan from "morgan";
 
+import authRouter from "./router/auth.routes.js";
+import userRouter from "./router/user.routes.js";
+import router from "./router/index.routes.js";
+import router2 from "./router/productsMongo.routes.js";
+import routerCarts from "./router/cartsMongo.routes.js";
+
+
 
 //Armando el servidor con express
 const app = express();
-//Conexión con MongoDB
+createRoles();
 
 
 //Middleware 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+
 
 
 //Handlebars
@@ -30,14 +39,14 @@ app.engine(".hbs", engine({
 app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
-
+//Rutas Autenticación
+app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 
 //Rutas Usando Mongo
-import router from "./router/index.routes.js";
-import router2 from "./router/productsMongo.routes.js";
-import routerCarts from "./router/cartsMongo.routes.js";
+
 //Products Mongo
-app.use(router);
+app.use(router);//index
 app.use(router2);
 //Carts Mongo
 app.use(routerCarts);
@@ -49,6 +58,9 @@ app.use("/api/cart", cartRouter)
 //Rutas del Handlebar
 app.use("/", viewsRouter);
 
+
+
+
 //Archivos estáticos
 app.use("/", express.static(__dirname + "/public"));
 
@@ -57,7 +69,6 @@ const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
     console.log( "Express por Local Host: " + PORT );
 }) //genera el servidor en el puerto
-
 
 
 //Creación del socket
