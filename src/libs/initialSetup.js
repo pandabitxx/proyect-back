@@ -21,6 +21,6 @@ const createRoles = async () => {
     } catch (error) {
         console.error(error);
     }
-  };
+};
 
-  export default createRoles;
+export default createRoles;

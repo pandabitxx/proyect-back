@@ -28,10 +28,11 @@ export const signUp = async (req, res) => {
     console.log(savedUser)
 
     const token = Jwt.sign({id: savedUser._id}, config.SECRET,{
-        expiresIn: 86400 //24 Horas
+        expiresIn: 60 //24 Horas
     });
 
-    res.status(200).json({token});
+    //res.status(200).json({token});
+    res.redirect('/products')
 }
 
 
@@ -52,10 +53,9 @@ export const signIn = async (req, res) => {
     console.log(userFound);
 
     const token = Jwt.sign({ id: userFound._id }, config.SECRET, {
-    expiresIn: 86400, // 24 hours
+    expiresIn: 60, // 24 hours
     });
 
-    res.json({token})
-
-    
+    //res.json({token})
+    res.redirect('/products')
 }
