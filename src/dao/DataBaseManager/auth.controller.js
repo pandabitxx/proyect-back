@@ -3,6 +3,7 @@ import Jwt from "jsonwebtoken";
 import config from "../../config/config.js";
 import roleModel from "../models/role.model.js";
 import userModel from "../models/user.model.js";
+import { serialize } from "cookie";
 
 export const signUp = async (req, res) => {
   
@@ -28,7 +29,7 @@ export const signUp = async (req, res) => {
     console.log(savedUser)
 
     const token = Jwt.sign({id: savedUser._id}, config.SECRET,{
-        expiresIn: 60 //24 Horas
+        expiresIn: 3600 //24 Horas
     });
 
     //res.status(200).json({token});
@@ -53,9 +54,23 @@ export const signIn = async (req, res) => {
     console.log(userFound);
 
     const token = Jwt.sign({ id: userFound._id }, config.SECRET, {
-    expiresIn: 60, // 24 hours
+    expiresIn: 3600, // 60 segundos
     });
 
     //res.json({token})
-    res.redirect('/products')
+    //res.redirect('/products')
+
+
+    //cookie configuration 
+
+    const serialized = serialize('myTokenName', token, {
+        httpOnly: true,
+       secure: process.env.NODE_ENV === 'production',
+       sameSite: 'strict',
+       maxAge: 1000 * 60 * 24 * 30, 
+       path: '/'
+    })
+
+    res.setHeader('Set-Cookie', serialized)
+    return  res.redirect('/products')
 }

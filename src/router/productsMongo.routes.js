@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 import productsController from "../dao/DataBaseManager/productsController.js";
-import { verifyToken, isModerator, isAdmin } from "../middlewares/auth.jwt.js";
+import { isAuthenticated } from "../middlewares/auth.passport.js";
+import { verifyToken, isModerator, isAdmin } from "../middlewares/authRoles.js";
+
 
 const {renderProductsForm, 
     createNewProduct, 

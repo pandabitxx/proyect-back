@@ -1,13 +1,11 @@
 const indexCtrl = {};
 
-
-
-indexCtrl.renderPrincipal = (req, res) => {
-    res.render('login/principal')
+indexCtrl.renderSignin = (req, res) => {
+    res.render('login/signin')
 };
 
-indexCtrl.renderRegister = (req, res) => {
-    res.render('login/register')
+indexCtrl.renderSignup = (req, res) => {
+    res.render('login/signup')
 };
 
 indexCtrl.renderRecoveryPassword = (req, res) => {

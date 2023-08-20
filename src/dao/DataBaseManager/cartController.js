@@ -60,14 +60,17 @@ cartController.addProductInCart = async (req, res) => {
 
 cartController.removeProduct = async (cartId, productId) => {
     try {
-        await cart.updateOne(
+        const car = await cart.updateOne(
             { _id: cartId },
             { $pull: { productos: productId } }
         );
 
         console.log("Producto eliminado del carrito con éxito");
+        res.json({ status: "success", payload:car });
+
     } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error);
+        res.status(500).json({ status: "error", message: error.message });
     }
 };
 

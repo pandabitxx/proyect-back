@@ -17,6 +17,7 @@ import userRouter from "./router/user.routes.js";
 import loginRouter from "./router/login.routes.js";
 import productsDbRouter from "./router/productsMongo.routes.js";
 import routerCarts from "./router/cartsMongo.routes.js";
+import passport from "passport";
 
 
 
@@ -29,7 +30,8 @@ createRoles();
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
+app.use(passport.initialize());
+//app.use(passport.session());
 
 
 //Handlebars
