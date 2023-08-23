@@ -2,8 +2,8 @@
 import express from "express";
 import createRoles from "./libs/initialSetup.js";
 import('./database.js')
-import productsRouter from "./router/product.routes.js";
-import cartRouter from "./router/cart.routes.js";
+import productsRouter from "./router/filesystem.router/product.routes.js";
+import cartRouter from "./router/filesystem.router/cart.routes.js";
 import viewsRouter from "./router/view.routes.js";
 import {engine} from "express-Handlebars"
 import __dirname from "./utils.js";
@@ -11,9 +11,9 @@ import path from "path"
 import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
 import morgan from "morgan";
+import MethodOverride from "method-override";
 
-import authRouter from "./router/auth.routes.js";
-import userRouter from "./router/user.routes.js";
+
 import loginRouter from "./router/login.routes.js";
 import productsDbRouter from "./router/productsMongo.routes.js";
 import routerCarts from "./router/cartsMongo.routes.js";
@@ -29,6 +29,7 @@ createRoles();
 //Middleware 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
+app.use(MethodOverride('_method'))
 app.use(express.json());
 app.use(passport.initialize());
 //app.use(passport.session());
@@ -42,8 +43,7 @@ app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
 //Rutas Autenticación
-app.use('/api/auth', authRouter);
-app.use('/api/users', userRouter);
+
 
 //Rutas Usando Mongo
 app.use(loginRouter);

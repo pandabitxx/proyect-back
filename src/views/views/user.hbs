@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="styles/cart.css">
+
+<div class="container">
+    <h2 class="mb-4">Esta es la vista de Usuarios</h2>
+    <button id="carritoBtn" class="btn btn-primary mb-4">Carrito</button>
+    <div class="row">
+        {{#each allProducts}}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {{!-- <img src="imagen_del_producto.jpg" class="card-img-top" alt="Imagen del producto"> --}}
+                <div class="card-body">
+                    <h5 class="card-title">{{name}}</h5>
+                    <p class="card-text">{{description}}</p>
+                    <p class="card-text">Precio: ${{price}}</p>
+                    <p class="card-text">Código: {{code}}</p>
+                    <p class="card-text">Stock: {{stock}}</p>
+                    <button class="btn btn-success" onclick="addProductInCart('{{_id}}')">
+                        Agregar al carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/front/cartAnimation.js"></script>
+<script src="/axios/addProductInCart.js"></script>

@@ -1,0 +1,27 @@
+{{#each carts}}
+    <h1 class="mt-5">Carrito</h1>
+    <div class="cart mt-2">
+        <ul>
+            {{#each productos}}
+                <div class="col-md-5 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4>{{name}}</h4>
+                            <p>{{description}}</p>
+                            <p>Precio: ${{price}}</p>
+                            <button class="btn btn-danger" onclick="deleteProduct('{{../_id}}', '{{_id}}')">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                            <!-- Agrega más propiedades del producto aquí si es necesario -->
+                        </div>
+                    </div>   
+                </div>
+            {{/each}}
+        </ul>
+    </div>
+{{/each}}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/axios/deleteProductCart.js"></script>
+
+
+

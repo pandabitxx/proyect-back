@@ -1,0 +1,89 @@
+<div class="container">
+    <h2 class="mb-4">Esta es la vista de Admin</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Id</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Código</th>
+                <th>Stock</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each allProducts}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{_id}}</td>
+                <td>{{description}}</td>
+                <td>${{price}}</td>
+                <td>{{code}}</td>
+                <td>{{stock}}</td>
+                <td>
+                    <a href="/products/edit/{{_id}}" class="btn btn-secondary edit-btn">
+                        <i class="fas fa-pencil-alt"></i> Editar
+                    </a>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteProduct('{{_id}}')">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="row mt-5">
+        <div class="col text-center">
+            <h1>Formulario para Agregar Productos</h1>
+        </div>
+        </div>
+            <main id="contacto-formulario">
+                <div class="container fuente" data-aos="fade-up">
+                    <div class="row mb-5">
+                        <div class="col-md-6 offset-md-3 contact rounded-5">
+                            <form action="/products/new-product" method="post">
+                                <div class="mb-3">
+                                    <label for="nameProduct" class="form-name p">Nombre del producto</label>
+                                    <input type="text" name="name" class="form-control" id="nameProduct" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descriptionProduct" class="form-description p">Descripción</label>
+                                    <input type="text" name="description" class="form-control" id="descripción" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="priceProduct" class="form-price p">Precio</label>
+                                    <input type="number" name="price" class="form-control" id="price" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="thumbnailProduct" class="form-route p">Thumbnail</label>
+                                    <input type="text" name="thumbnail" class="form-control" id="thumbnail" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="codeProduct" class="form-code p">código</label>
+                                    <input type="number" name="code" class="form-control" id="code" aria-describedby="emailHelp" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="disabledSelect" class="form-stock p">Stock</label>
+                                    <select name="stock" id="disabledSelect" class="form-select" required>
+                                    <option class="p" value="" disabled selected>Seleccione</option>
+                                    <option class="p" value="Available">Disponible </option>
+                                    <option class="p" value="Out of Stock">Sin Existencias</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-5" data-aos="fade-left">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/axios/delete.js"></script>

@@ -1,14 +1,12 @@
 import { Router } from "express";
 
 import productsController from "../dao/DataBaseManager/productsController.js";
-import { isAuthenticated } from "../middlewares/auth.passport.js";
-import { verifyToken, isModerator, isAdmin } from "../middlewares/authRoles.js";
 
 
-const {renderProductsForm, 
+const {
     createNewProduct, 
     renderProducts,
-    renderEditProducts,
+    renderEditForm,
     updateProduct,
     deleteProduct,
     paginateProducts
@@ -16,23 +14,19 @@ const {renderProductsForm,
 
 
 const productsDbRouter = Router();
-
-//New Product 
-productsDbRouter.get('/products/add', renderProductsForm);
-
 // (Crear un nuevo Producto)
-productsDbRouter.post('/products/new-product', [verifyToken, isModerator], createNewProduct);
+//El formulario hace un post a esta ruta
+productsDbRouter.post('/products/new-product', createNewProduct); 
 
 //Get all Products (Obtener productos de la base de datos)
 productsDbRouter.get('/products', renderProducts);
 
-//Edit All Products 
-productsDbRouter.get('/products/edit/:id', verifyToken, renderEditProducts);
-
-productsDbRouter.put('/products/edit/:id', verifyToken, updateProduct);
+//EditProducts 
+productsDbRouter.get('/products/edit/:id', renderEditForm);
+productsDbRouter.put('/products/edit/:id', updateProduct);
 
 //Delete Products
-productsDbRouter.delete('/products/delete/:id', verifyToken, deleteProduct);
+productsDbRouter.delete('/products/delete/:id', deleteProduct);
 
 //Paginate
 productsDbRouter.get('/pag', paginateProducts);

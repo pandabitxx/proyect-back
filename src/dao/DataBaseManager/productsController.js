@@ -3,9 +3,6 @@ import ProductsSchema from "../models/Products.model.js";
 const productsController = {};
 const products = ProductsSchema;
 
-productsController.renderProductsForm = (req, res) => {
-    res.render('products/form-new-product')
-}
 
 productsController.createNewProduct = async (req, res) => {
     const { name, description, price, thumbnail, code, stock } = req.body
@@ -26,7 +23,8 @@ productsController.createNewProduct = async (req, res) => {
 //esto va en views
 productsController.renderProducts = async (req, res) => {
     const allProducts = await products.find().lean();
-    res.render('products/all-products', { allProducts } );
+    //res.render('views/moderator', { allProducts } );
+    res.render('views/user', { allProducts } );
 }
 
 //paginate
@@ -94,18 +92,39 @@ productsController.paginateProducts = async (req, res) => {
 };
 
 
-
 ///
-productsController.renderEditProducts = (req, res) => {
-    res.send('Render Edit Form')
+productsController.renderEditForm = async (req, res) => {
+    const editProduct = await products.findById(req.params.id);
+    const id = editProduct._id;
+    const name = editProduct.name;
+    const description = editProduct.description;
+    const price = editProduct.price;
+    const thumbnail = editProduct.thumbnail;
+    const code = editProduct.code;
+    console.log(id)
+    res.render('views/editProducts', {editProduct, id, name, description, price, thumbnail, code})
 }
 
-productsController.updateProduct = (req, res) => {
-    res.send('Update Product')
+productsController.updateProduct = async (req, res) => {
+        const { name, description, price, thumbnail, code, stock } = req.body;
+        await products.findByIdAndUpdate(req.params.id, { name, description, price, thumbnail, code, stock });
+        res.redirect("/products");
 }
 
-productsController.deleteProduct = (req, res) => {
-    res.send('Delete Product')
+productsController.deleteProduct = async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const deletedProduct = await products.deleteOne({ _id: productId });
+
+        if (deletedProduct.deletedCount === 0) {
+            return res.status(404).json({ message: "Producto no encontrado." });
+        }
+
+        res.json({ message: "Producto eliminado exitosamente." });
+    } catch (error) {
+        console.error("Error al eliminar el producto:", error);
+        res.status(500).json({ message: "Error al eliminar el producto." });
+    }
 }
 
 

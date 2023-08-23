@@ -1,3 +1,4 @@
+
 import carsSchema from "../models/Cart.model.js"
 
 const cartController = {};
@@ -8,20 +9,42 @@ const cart = carsSchema;
 // Crear Carrito
 cartController.createCart = async (req, res) => {
     const { products } = req.body;
-    const newCart = new cart({ productos: products }); // Cambio "products" a "productos"
+    const newCart = new cart({ productos: products });
     await newCart.save();
-    res.json({ status: "success", payload: newCart });
+
+    res.json({ status: "success", payload: newCart._id });
 };
 
 // Obtener Carritos
+
 cartController.getCarts = async (req, res) => {
     try {
         let carts = await cart.find().lean().populate('productos'); // Nombre de referencia. 
-        res.json({ status: "success", payload: carts });
+
+        // Aquí recorremos los carritos y accedemos a las propiedades de los productos en cada carrito
+        carts = carts.map(cart => {
+            const productsInCart = cart.productos.map(producto => ({
+                _id: producto._id,
+                name: producto.name,
+                description: producto.description,
+                price: producto.price,
+                thumbnail: producto.thumbnail,
+                // ... otras propiedades del producto
+            }));
+
+            return {
+                _id: cart._id,
+                productos: productsInCart,
+                // ... otras propiedades del carrito
+            };
+        });
+
+        res.render('views/cartUser', { carts });
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
     }
 };
+
 
 //Añadir un producto al carrito
 
@@ -36,6 +59,7 @@ cartController.addProduct = async (cartId, productId) => {
         
         cartItem.productos.push(productId);
         await cartItem.save();
+
         
         return cartItem;
     } catch (error) {
@@ -54,7 +78,6 @@ cartController.addProductInCart = async (req, res) => {
         res.status(500).json({ status: "error", message: error.message });
     }
 };
-
 
 //Eliminar producto
 
