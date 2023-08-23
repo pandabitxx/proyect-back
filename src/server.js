@@ -12,6 +12,8 @@ import { Server } from "socket.io";
 import { v4 as uuid } from 'uuid';
 import morgan from "morgan";
 import MethodOverride from "method-override";
+import logger from "./utils/logger.js";
+import { developmentLogger, productionLogger } from "./utils/logger.js"
 
 
 import loginRouter from "./router/login.routes.js";
@@ -34,6 +36,37 @@ app.use(express.json());
 app.use(passport.initialize());
 //app.use(passport.session());
 
+//Logger
+app.use((req, res, next) => {
+    if (process.env.NODE_ENV === 'production') {
+      req.logger = productionLogger;
+    } else {
+      req.logger = developmentLogger;
+    }
+    next();
+  });
+  
+  app.get('/Logger', (req, res) => {
+    req.logger.debug('Debug message');
+    req.logger.http('HTTP message');
+    req.logger.info('Info message');
+    req.logger.warn('Warning message');
+    req.logger.error('Error message');
+    //req.logger.fatal('Fatal message');
+  
+    res.send('Logger completed.');
+  });
+  
+  app.get('/loggerTest', (req, res) => {
+    req.logger.debug('Debug message from /loggerTest');
+    req.logger.info('Info message from /loggerTest');
+    req.logger.error('Error message from /loggerTest');
+  
+    res.send('Logger test completed.');
+  });
+
+
+
 
 //Handlebars
 app.engine(".hbs", engine({
@@ -43,7 +76,6 @@ app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
 //Rutas Autenticación
-
 
 //Rutas Usando Mongo
 app.use(loginRouter);
@@ -68,7 +100,7 @@ app.use("/", express.static(__dirname + "/public"));
 //Creación del puerto
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
-    console.log( "Express por Local Host: " + PORT );
+    logger.info( "Express por Local Host: " + PORT );
 }) //genera el servidor en el puerto
 
 

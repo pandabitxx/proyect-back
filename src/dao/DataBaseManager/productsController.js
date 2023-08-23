@@ -24,7 +24,7 @@ productsController.createNewProduct = async (req, res) => {
 productsController.renderProducts = async (req, res) => {
     const allProducts = await products.find().lean();
     //res.render('views/moderator', { allProducts } );
-    res.render('views/user', { allProducts } );
+    res.render('views/admin', { allProducts } );
 }
 
 //paginate

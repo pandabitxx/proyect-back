@@ -1,4 +1,3 @@
-
 import carsSchema from "../models/Cart.model.js"
 
 const cartController = {};
@@ -21,7 +20,6 @@ cartController.getCarts = async (req, res) => {
     try {
         let carts = await cart.find().lean().populate('productos'); // Nombre de referencia. 
 
-        // Aquí recorremos los carritos y accedemos a las propiedades de los productos en cada carrito
         carts = carts.map(cart => {
             const productsInCart = cart.productos.map(producto => ({
                 _id: producto._id,
@@ -29,16 +27,13 @@ cartController.getCarts = async (req, res) => {
                 description: producto.description,
                 price: producto.price,
                 thumbnail: producto.thumbnail,
-                // ... otras propiedades del producto
             }));
 
             return {
                 _id: cart._id,
                 productos: productsInCart,
-                // ... otras propiedades del carrito
             };
         });
-
         res.render('views/cartUser', { carts });
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
@@ -87,16 +82,15 @@ cartController.removeProduct = async (cartId, productId) => {
             { _id: cartId },
             { $pull: { productos: productId } }
         );
-
         console.log("Producto eliminado del carrito con éxito");
-        res.json({ status: "success", payload:car });
-
     } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error);
-        res.status(500).json({ status: "error", message: error.message });
     }
 };
 
+
+
+//Eliminar producto
 
 cartController.removeProductFromCart = async (req, res) => {
     let cartId = req.params.cid;
