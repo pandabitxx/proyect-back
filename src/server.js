@@ -20,6 +20,8 @@ import loginRouter from "./router/login.routes.js";
 import productsDbRouter from "./router/productsMongo.routes.js";
 import routerCarts from "./router/cartsMongo.routes.js";
 import passport from "passport";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 
 
@@ -66,6 +68,25 @@ app.use((req, res, next) => {
   });
 
 
+//swagger
+const Option = {
+  definition:{
+    openapi: "3.0.0",
+    info:{
+      title: "Documentación",
+      description:"Documentación Apis",
+      version: "1.0.0"
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+}
+
+//Docs en JSON format 
+const specs = swaggerJSDoc(Option);
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+
+
 
 
 //Handlebars
@@ -101,6 +122,7 @@ app.use("/", express.static(__dirname + "/public"));
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => {
     logger.info( "Express por Local Host: " + PORT );
+    //swaggerDocs(app,  PORT);
 }) //genera el servidor en el puerto
 
 

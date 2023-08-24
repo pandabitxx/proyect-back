@@ -1,0 +1,185 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Backend API
+paths:
+  /products/new-product:
+    post:
+      summary: Crear un nuevo producto
+      parameters:
+        - in: body
+          name: product
+          description: Datos del producto a crear
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              description:
+                type: string
+              price:
+                type: number
+              thumbnail:
+                type: string
+              code:
+                type: string
+              stock:
+                type: number
+      responses:
+        '200':
+          description: Producto creado exitosamente
+        '400':
+          description: Datos incorrectos o faltantes
+        '500':
+          description: Error en el servidor al crear el producto
+
+  /products:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Lista de productos obtenida exitosamente
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Product"
+        '500':
+          description: Error en el servidor al obtener los productos
+
+  /products/edit/{id}:
+    get:
+      summary: Obtener detalles para editar un producto
+      parameters:
+        - name: id
+          in: path
+          description: ID del producto a editar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Detalles del producto obtenidos exitosamente para edición
+          schema:
+            $ref: "#/definitions/Product"
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor al obtener los detalles del producto
+
+    put:
+      summary: Actualizar los detalles de un producto
+      parameters:
+        - name: id
+          in: path
+          description: ID del producto a actualizar
+          required: true
+          type: string
+        - in: body
+          name: product
+          description: Nuevos detalles del producto
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+        '400':
+          description: Datos incorrectos o faltantes
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor al actualizar el producto
+
+  /products/delete/{id}:
+    delete:
+      summary: Eliminar un producto
+      parameters:
+        - name: id
+          in: path
+          description: ID del producto a eliminar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error en el servidor al eliminar el producto
+
+  /pag:
+    get:
+      summary: Obtener productos paginados
+      parameters:
+        - name: category
+          in: query
+          description: Categoría de productos (opcional)
+          required: false
+          type: string
+        - name: sortOrder
+          in: query
+          description: Orden de clasificación (opcional)
+          required: false
+          type: integer
+        - name: itemsPerPage
+          in: query
+          description: Cantidad de productos por página (opcional)
+          required: false
+          type: integer
+        - name: page
+          in: query
+          description: Página actual (opcional)
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: Lista de productos paginados obtenida exitosamente
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+              payload:
+                type: array
+                items:
+                  $ref: "#/definitions/Product"
+              info:
+                type: object
+                properties:
+                  itemsPerPage:
+                    type: integer
+                  currentPage:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  currentPageItemCount:
+                    type: integer
+                  hasPreviousPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  previousPage:
+                    type: integer
+                  nextPage:
+                    type: integer
+        '500':
+          description: Error en el servidor al obtener los productos paginados
+
+definitions:
+  Product:
+    type: object
+    properties:
+      _id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      price:
+        type: number
+      thumbnail:
+        type: string
+      code:
+        type: string
+      stock:
+        type: number

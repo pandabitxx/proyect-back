@@ -1,0 +1,99 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Carrito de Compras API
+paths:
+  /api/carts/new-cart:
+    post:
+      summary: Crear un nuevo carrito de compras
+      parameters:
+        - in: body
+          name: cart
+          description: Datos del carrito a crear
+          required: true
+          schema:
+            type: object
+            properties:
+              products:
+                type: array
+                items:
+                  type: string
+      responses:
+        '200':
+          description: Carrito de compras creado exitosamente
+        '500':
+          description: Error en el servidor al crear el carrito de compras
+
+  /api/carts:
+    get:
+      summary: Obtener todos los carritos de compras
+      responses:
+        '200':
+          description: Lista de carritos de compras obtenida exitosamente
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Cart"
+        '500':
+          description: Error en el servidor al obtener los carritos de compras
+
+  /api/{cid}/{pid}:
+    post:
+      summary: Agregar un producto a un carrito
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: ID del producto a agregar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Producto agregado exitosamente al carrito
+        '500':
+          description: Error en el servidor al agregar el producto al carrito
+
+    delete:
+      summary: Eliminar un producto de un carrito
+      parameters:
+        - name: cid
+          in: path
+          description: ID del carrito
+          required: true
+          type: string
+        - name: pid
+          in: path
+          description: ID del producto a eliminar
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Producto eliminado exitosamente del carrito
+        '500':
+          description: Error en el servidor al eliminar el producto del carrito
+
+definitions:
+  Cart:
+    type: object
+    properties:
+      _id:
+        type: string
+      productos:
+        type: array
+        items:
+          type: object
+          properties:
+            _id:
+              type: string
+            name:
+              type: string
+            description:
+              type: string
+            price:
+              type: number
+            thumbnail:
+              type: string
