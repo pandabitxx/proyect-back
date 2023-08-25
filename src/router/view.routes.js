@@ -1,15 +1,12 @@
 import { Router } from "express";
-import productManager from "../controllers/ProductManager.js";
+import  productsController  from "../dao/DataBaseManager/productsController.js"
+import authMiddleware from "../utils/auth.middleware.js";
 
-import userModel from "../dao/models/user.model.js";
 
 const viewsRouter = Router();
-const productos = new productManager();
 
-viewsRouter.get("/dash", async (req, res) => {
-    let nameRole = await userModel.find().lean();
-    res.render("dashboard", {nameRole})
-});
+
+viewsRouter.get("/user", authMiddleware.isLoggIn, productsController.renderProducts);
 
 viewsRouter.get("/f", async (req, res) => {
     let allProducts = await productos.readProducts()

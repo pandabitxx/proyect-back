@@ -23,8 +23,10 @@ productsController.createNewProduct = async (req, res) => {
 //esto va en views
 productsController.renderProducts = async (req, res) => {
     const allProducts = await products.find().lean();
-    //res.render('views/moderator', { allProducts } );
-    res.render('views/admin', { allProducts } );
+    let viewRender = "user"
+    const role = req.user.role ?? 'user'
+    const user = {name: req.user.name, role}
+    res.render(`views/${role}`, { allProducts, user } );
 }
 
 //paginate
@@ -126,7 +128,5 @@ productsController.deleteProduct = async (req, res) => {
         res.status(500).json({ message: "Error al eliminar el producto." });
     }
 }
-
-
 
 export default productsController;

@@ -12,6 +12,9 @@
 </head>
 <body>
     <div class="container">
+        {{#if itsAuthenticate}}
+        <a class="btn btn-primary" href="/auth/logout">logout</a>
+        {{/if}}
         {{{body}}}
     </div>
 </body>

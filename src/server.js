@@ -1,10 +1,17 @@
 //Creación del servidor
 import express from "express";
-import createRoles from "./libs/initialSetup.js";
+//import createRoles from "./libs/initialSetup.js";
+
+//Mongo
 import('./database.js')
-import productsRouter from "./router/filesystem.router/product.routes.js";
-import cartRouter from "./router/filesystem.router/cart.routes.js";
-import viewsRouter from "./router/view.routes.js";
+import MongoStore from "connect-mongo";
+import MONGODB_URI from "./database.js";
+
+
+import passport from "passport";
+import session from "express-session";
+import "./config/passport.config.js";
+
 import {engine} from "express-Handlebars"
 import __dirname from "./utils.js";
 import path from "path"
@@ -14,29 +21,46 @@ import morgan from "morgan";
 import MethodOverride from "method-override";
 import logger from "./utils/logger.js";
 import { developmentLogger, productionLogger } from "./utils/logger.js"
+import flash from "connect-flash";
 
-
-import loginRouter from "./router/login.routes.js";
-import productsDbRouter from "./router/productsMongo.routes.js";
-import routerCarts from "./router/cartsMongo.routes.js";
-import passport from "passport";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+
+//Rutas
+import routerCarts from "./router/cartsMongo.routes.js";
+import userRoutes from "./router/auth.routes.js";
+import productsDbRouter from "./router/productsMongo.routes.js";
+import productsRouter from "./router/filesystem.router/product.routes.js";
+import cartRouter from "./router/filesystem.router/cart.routes.js";
+import viewsRouter from "./router/view.routes.js";
+
 
 
 
 //Armando el servidor con express
 const app = express();
-createRoles();
-
+//createRoles();
 
 //Middleware 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}));
 app.use(MethodOverride('_method'))
 app.use(express.json());
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
+  })
+);
 app.use(passport.initialize());
-//app.use(passport.session());
+app.use(passport.session());
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.itsAuthenticate = req.isAuthenticated()
+  next()
+});
 
 //Logger
 app.use((req, res, next) => {
@@ -86,9 +110,6 @@ const specs = swaggerJSDoc(Option);
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 
-
-
-
 //Handlebars
 app.engine(".hbs", engine({
     extname: '.hbs'
@@ -96,10 +117,12 @@ app.engine(".hbs", engine({
 app.set("view engine", ".hbs");
 app.set("views", path.resolve(__dirname + "/views"))
 
+
 //Rutas Autenticación
 
 //Rutas Usando Mongo
-app.use(loginRouter);
+app.use(userRoutes);
+
 //Products Mongo
 app.use(productsDbRouter);
 //Carts Mongo

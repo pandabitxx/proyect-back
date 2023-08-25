@@ -11,4 +11,4 @@ mongoose.connect(MONGODB_URI, {
     .catch(err => console.log(err));
 
     
-
+export default MONGODB_URI;
