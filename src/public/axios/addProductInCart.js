@@ -1,23 +1,14 @@
 async function addProductInCart(productId) {
     try {
-        const createCartResponse = await axios.post('/api/carts/new-cart', {
-            products: [productId]
-        });
+        const cartId = document.getElementById('cartId').value;
 
-        const createCartData = createCartResponse.data;
-        if (createCartData.status === 'success') {
-            const cartId = createCartData.payload;
+        const addProductResponse = await axios.post(`/api/${cartId}/${productId}`);
 
-            const addProductResponse = await axios.post(`/api/${cartId}/${productId}`);
-
-            const addProductData = addProductResponse.data;
-            if (addProductData.status === 'success') {
-                alert('Producto agregado al carrito');
-            } else {
-                alert('Error al agregar el producto al carrito');
-            }
+        const addProductData = addProductResponse.data;
+        if (addProductData.status === 'success') {
+            alert('Producto agregado al carrito');
         } else {
-            alert('Error al crear el carrito');
+            alert('Error al agregar el producto al carrito');
         }
     } catch (error) {
         console.error('Error:', error);

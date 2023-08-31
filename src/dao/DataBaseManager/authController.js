@@ -6,7 +6,6 @@ export const renderSignUpForm = (req, res) => res.render("auth/signup");
 export const signup = async (req, res) => {
   let errors = [];
   const { name, email, password, confirm_password } = req.body;
-  console.log(req.body)
   if (password !== confirm_password) {
     errors.push({ text: "Passwords do not match." });
   }

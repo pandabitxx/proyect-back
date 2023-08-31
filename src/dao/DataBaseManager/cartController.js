@@ -18,23 +18,8 @@ cartController.createCart = async (req, res) => {
 
 cartController.getCarts = async (req, res) => {
     try {
-        let carts = await cart.find().lean().populate('productos'); // Nombre de referencia. 
-
-        carts = carts.map(cart => {
-            const productsInCart = cart.productos.map(producto => ({
-                _id: producto._id,
-                name: producto.name,
-                description: producto.description,
-                price: producto.price,
-                thumbnail: producto.thumbnail,
-            }));
-
-            return {
-                _id: cart._id,
-                productos: productsInCart,
-            };
-        });
-        res.render('views/cartUser', { carts });
+        let cartUser = await cart.findById(req.user.cart).lean().populate('productos'); // Nombre de referencia. 
+        res.render('views/cartUser', { cart:cartUser });
     } catch (error) {
         res.status(500).json({ status: "error", message: error.message });
     }

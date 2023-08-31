@@ -25,7 +25,7 @@ productsController.renderProducts = async (req, res) => {
     const allProducts = await products.find().lean();
     let viewRender = "user"
     const role = req.user.role ?? 'user'
-    const user = {name: req.user.name, role}
+    const user = {name: req.user.name, role, cart: req.user.cart}
     res.render(`views/${role}`, { allProducts, user } );
 }
 
